@@ -5,7 +5,7 @@ const fs = require("fs");
 module.exports = {
     get: function(req,res) {
         return new Promise((resolve,reject) => {
-            const {sortby="name", order="asc", limit=3, page=1} = req.body;
+            const {sortby="name", order="asc", limit=3, page=1, search='', category} = req.query;
             const offset = (page - 1) * limit;
             sql = `SELECT categories.category_name AS category,
             categories.category_id, products.slug,
@@ -14,6 +14,8 @@ module.exports = {
             from products 
             JOIN categories 
             ON products.category_id = categories.category_id
+            WHERE products.name LIKE '%${search}%'
+            ${category ? `AND categories.category_name = '${category}'`: ''} 
             ORDER BY products.${sortby} ${order} LIMIT ${limit} OFFSET ${offset}
             `;
             db.query(sql,(err,results) => {
