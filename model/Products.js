@@ -47,7 +47,7 @@ module.exports = {
             sql = `SELECT categories.category_name AS category,
             categories.category_id,
             products.name, price, cover,
-            product_id
+            product_id, products.description
             from products 
             JOIN categories 
             ON products.category_id = categories.category_id
