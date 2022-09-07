@@ -78,10 +78,10 @@ module.exports = {
     },
     add: function(req,res) {
         return new Promise((resolve,reject) => {
-            const {name, cover, category_id, price} = req.body
+            const {name, cover, category_id, price, description} = req.body
             const slug = slugify(name, {lower: true})
-            const sql = `INSERT INTO products (name, slug, cover, category_id, price) 
-                VALUES('${name}', '${slug}', '${cover}', '${category_id}', ${price})
+            const sql = `INSERT INTO products (name, slug, cover, category_id, price, description) 
+                VALUES('${name}', '${slug}', '${cover}', '${category_id}', ${price}, '${description}')
             `;
             db.query(sql,(err,results) => {
 
