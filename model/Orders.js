@@ -14,7 +14,7 @@ module.exports = {
             SUM(product_size.price) AS total_price,
             COUNT(products.product_id) as quantity, 
             orders.status, payment_method, orders.update_at,
-            products.product_id
+            products.product_id, products.cover
             from orders
             JOIN users 
             ON orders.user_id = users.user_id
