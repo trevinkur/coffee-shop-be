@@ -16,7 +16,8 @@ module.exports = {
                         if(err.code = "ER_DUP_ENTRY") {
                             reject({
                                 message: "maaf email sudah ada",
-                                status: 400
+                                status: 400,
+                                detail: err
                             })
                         }
                         reject({
@@ -36,15 +37,13 @@ module.exports = {
     },
     login: function(req, res) {
         return new Promise((resolve, reject) => {
-            
             const {email, password} = req.body 
             const sql = `SELECT user_id, role, password FROM users WHERE email='${email.toLowerCase()}' `
             db.query(sql, (err, results) => {
-                
                 if(err) {
                     if(err.code = "ER_DUP_ENTRY") {
                         reject({
-                            message: "maaf email sudah ada",
+                            message: "maaf/password salah",
                             status: 400
                         })
                     }
@@ -66,6 +65,7 @@ module.exports = {
                                 status: 500
                             })
                         }
+                        
                         if(result) {
                             resolve({
                                 message: "login success",
@@ -75,6 +75,11 @@ module.exports = {
                                     role : results[0].role,
                                     userId: results[0].user_id
                                 }
+                            })
+                        } else {
+                            reject({
+                                reject: "email/password salah",
+                                status: 400
                             })
                         }
                     })
